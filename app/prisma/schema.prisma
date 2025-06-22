@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model UseCase {
+  id              String   @id @default(uuid())
+  title           String
+  description     String
+  status          String
+  businessUnit    String
+  contactPerson   String
+  intendedPurpose String
+  usesAI          Boolean
+  scope           String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
