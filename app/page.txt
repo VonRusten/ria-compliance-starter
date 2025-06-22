@@ -1,0 +1,44 @@
+'use client';
+import { useState } from 'react';
+
+export default function HomePage() {
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    status: 'exploracion',
+    businessUnit: '',
+    contactPerson: '',
+    intendedPurpose: '',
+    usesAI: false,
+    scope: 'UE',
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await fetch('/api/use-case', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl mx-auto">
+      {/* Campos del formulario */}
+      <div>
+        <label>Nombre del caso de uso</label>
+        <input name="title" value={formData.title} onChange={handleChange} className="w-full border p-2" />
+      </div>
+      {/* ...continúa con los demás campos como hicimos antes... */}
+      <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">Guardar caso</button>
+    </form>
+  );
+}
